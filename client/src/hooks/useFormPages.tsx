@@ -35,7 +35,7 @@ export default function useFormPages(initialPage: number = 1) {
 
   // Go to next page
   const goToNextPage = () => {
-    if (currentPage < 6) {
+    if (currentPage < 501) {
       setCurrentPage((prev) => prev + 1);
     }
   };

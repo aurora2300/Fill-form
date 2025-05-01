@@ -33,7 +33,7 @@ export default function FormPage() {
 
   // Check if page is valid
   useEffect(() => {
-    if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > 6) {
+    if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > 501) {
       setLocation("/");
       toast({
         title: "Invalid page",
@@ -47,28 +47,42 @@ export default function FormPage() {
 
   // Render appropriate form component based on current page
   const renderFormComponent = () => {
-    switch (pageNumber) {
-      case 1:
-        return <RegistrationPage formState={formState} updateFormData={updateFormData} />;
-      case 2:
-        return <TeamCollaboration formState={formState} updateFormData={updateFormData} />;
-      case 3:
-        return <ClientCommunication formState={formState} updateFormData={updateFormData} />;
-      case 4:
-        return <DesignHandoff formState={formState} updateFormData={updateFormData} />;
-      case 5:
-        return <DesignSystem formState={formState} updateFormData={updateFormData} />;
-      case 6:
-        return <DataDesign formState={formState} updateFormData={updateFormData} />;
-      default:
-        return <div>Invalid Page</div>;
+    // First page is registration
+    if (pageNumber === 1) {
+      return <RegistrationPage formState={formState} updateFormData={updateFormData} />;
     }
+    
+    // Pages 2-501 are form pages with images
+    if (pageNumber >= 2 && pageNumber <= 501) {
+      // We'll use the same form component for all image pages, but with different images
+      // Depending on user group (from formState) and current page number
+      
+      // We'll cycle through the 5 form components we have to maintain variety
+      const componentIndex = (pageNumber - 2) % 5;
+      
+      switch (componentIndex) {
+        case 0:
+          return <TeamCollaboration formState={formState} updateFormData={updateFormData} />;
+        case 1:
+          return <ClientCommunication formState={formState} updateFormData={updateFormData} />;
+        case 2:
+          return <DesignHandoff formState={formState} updateFormData={updateFormData} />;
+        case 3:
+          return <DesignSystem formState={formState} updateFormData={updateFormData} />;
+        case 4:
+          return <DataDesign formState={formState} updateFormData={updateFormData} />;
+        default:
+          return <TeamCollaboration formState={formState} updateFormData={updateFormData} />;
+      }
+    }
+    
+    return <div>Invalid Page</div>;
   };
 
   const handleNext = async () => {
     const isValid = await validateCurrentPage();
     if (isValid) {
-      if (pageNumber === 6) {
+      if (pageNumber === 501) {
         const success = await submitForm();
         if (success) {
           setLocation("/confirmation");
@@ -95,7 +109,7 @@ export default function FormPage() {
 
         <Card className="bg-white rounded-lg shadow-md mb-6">
           <CardContent className="p-6">
-            <ProgressIndicator currentPage={pageNumber} totalPages={7} />
+            <ProgressIndicator currentPage={pageNumber} totalPages={502} />
             
             <div className="form-container mt-8">
               {renderFormComponent()}
@@ -103,7 +117,7 @@ export default function FormPage() {
 
             <FormNavigation 
               currentPage={pageNumber} 
-              totalPages={6}
+              totalPages={501}
               onNext={handleNext}
               onPrevious={handlePrevious}
               isSubmitting={isSubmitting}

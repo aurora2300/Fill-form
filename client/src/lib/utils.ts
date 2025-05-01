@@ -9,15 +9,15 @@ export function cn(...inputs: ClassValue[]) {
  * Get the image URL for a form page based on the user's group
  * 
  * @param groupNumber - The user's group (1-60)
- * @param pageNumber - The current page number (2-6, since page 1 is registration)
- * @returns A placeholder URL for now, but would be replaced with real image URLs
+ * @param pageNumber - The current page number (2-501, since page 1 is registration)
+ * @returns The path to the appropriate image
  */
 export function getImageForPage(groupNumber: string | number, pageNumber: number): string {
   // Convert group to number if it's a string
   const group = typeof groupNumber === 'string' ? parseInt(groupNumber) : groupNumber;
   
   // Basic validation
-  if (isNaN(group) || group < 1 || group > 60 || pageNumber < 2 || pageNumber > 6) {
+  if (isNaN(group) || group < 1 || group > 60 || pageNumber < 2 || pageNumber > 501) {
     // Return default image if invalid
     return "/placeholder.jpg";
   }

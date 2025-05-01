@@ -1,5 +1,11 @@
 # Image Upload Instructions
 
+## Overview
+This form application now features 502 pages for each user:
+- 1 registration page
+- 500 image evaluation pages
+- 1 confirmation page
+
 ## File Structure
 To display images in the survey form, place your JPG files in this directory following this naming convention:
 
@@ -43,4 +49,13 @@ The image number is calculated as follows:
 3. Use JPG format for compatibility
 4. Recommended image size: 600x400 pixels for optimal display
 
-The system will automatically load the images based on the user's group selection and current form page.
+## Total Images Required
+- For 1 group: 500 images (0.jpg to 499.jpg)
+- For all 60 groups: 30,000 images (0.jpg to 29999.jpg)
+
+## Form Questions Pattern
+The form uses 5 different question templates that cycle through all 500 images. Each template contains the same basic questions:
+1. "Is this image normal (0) or abnormal/disliked (1)?"
+2. If abnormal/disliked, "What is the degree of abnormality/dislike (1-3)?"
+
+The system will automatically load the correct image based on the user's group selection and current form page.
