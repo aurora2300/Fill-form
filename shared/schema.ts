@@ -7,6 +7,7 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   userGroup: text("user_group").notNull(),
+  fileName: text("file_name"),
   createdAt: timestamp("created_at").defaultNow()
 });
 
@@ -35,6 +36,7 @@ export const responses = pgTable("responses", {
   question5: text("question5"), // A or B
   question5b: text("question5b"), // 1, 2, or 3 (only if question5 is B)
   
+  createdAt: timestamp("created_at").defaultNow(),
   completedAt: timestamp("completed_at").defaultNow()
 });
 
@@ -46,6 +48,7 @@ export const insertUserSchema = createInsertSchema(users).omit({
 
 export const insertResponseSchema = createInsertSchema(responses).omit({ 
   id: true, 
+  createdAt: true,
   completedAt: true 
 });
 
@@ -53,6 +56,7 @@ export const insertResponseSchema = createInsertSchema(responses).omit({
 export const formDataSchema = z.object({
   name: z.string().min(1, "Name is required"),
   userGroup: z.string().min(1, "Please select a group"),
+  fileName: z.string().optional(),
   
   // Form questions
   question1: z.string().optional(),
@@ -86,7 +90,7 @@ export type FormSubmission = {
   id: number;
   name: string;
   userGroup: string;
-  fileName: string;
+  fileName: string; // Even if null in DB, we convert to empty string in code
   question1?: string;
   question1b?: string;
   question2?: string;
